@@ -1,0 +1,48 @@
+.back-button-container {
+  padding: 10px 20px;
+  background-color: white;
+}
+
+:host {
+  position: absolute;
+  top: 60px;
+  left: 30px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button {
+  position: absolute;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: black;
+  outline: none;
+
+  &:hover {
+    color: #5e2ec3;
+  }
+}
+@media (max-width: 768px) {
+  :host {
+  position: absolute;
+  top: 30px; 
+  left: 30px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  .back-button-logged {
+    top: 30px; 
+  }
+}
+
+}

@@ -1,0 +1,5 @@
+<button 
+  (click)="onSubscribe()" 
+  [disabled]="isSubscribed || loading">
+  {{ isSubscribed ? 'Déjà abonné' : (loading ? 'Abonnement...' : 'S’abonner') }}
+</button>

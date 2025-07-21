@@ -1,0 +1,26 @@
+<div class="profile-container">
+  <h2 class="profile-title">Profil utilisateur</h2>
+
+  
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+  <input formControlName="username" placeholder="Username" />
+  <input formControlName="email" type="email" placeholder="email@email.fr" />
+  <input formControlName="password" type="password" placeholder="Mot de passe" />
+  <button type="submit" class="save-button">Sauvegarder</button>
+</form>
+<hr class="separator" />
+  <h3 class="subscriptions-title">Abonnements</h3>
+
+  <div *ngIf="subscribedThemes.length === 0">
+    Aucun abonnement pour l’instant.
+  </div>
+
+  <div class="theme-container">
+  <app-theme-card
+    *ngFor="let theme of subscribedThemes"
+    [theme]="theme"
+    [isSubscribed]="true"
+    (unsubscribe)="onUnsubscribe($event)">
+  </app-theme-card>
+</div>
+</div>

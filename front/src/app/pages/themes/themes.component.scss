@@ -1,0 +1,57 @@
+.article-section {
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+.articles-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.article-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1.5rem;
+}
+
+.article-list-container > div {
+  width: calc(50% - 0.75rem);
+}
+
+/* Style pour chaque carte thème */
+.theme-card {
+  background-color: #f0eded;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+/* Responsive */
+  @media (max-width: 840px) {
+  .article-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+  }
+
+  .article-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .article-list-container > div {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .articles-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+

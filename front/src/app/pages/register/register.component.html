@@ -1,0 +1,19 @@
+<app-back-button route="/"></app-back-button>
+
+<div class="register-container">
+
+  <h2>Inscription</h2>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" class="form">
+    <label>Nom d'utilisateur</label>
+    <input formControlName="username" type="text" />
+
+    <label>Adresse e-mail</label>
+    <input formControlName="email" type="email" />
+
+    <label>Mot de passe</label>
+    <input formControlName="password" type="password" />
+
+    <button type="submit">S'inscrire</button>
+  </form>
+</div>

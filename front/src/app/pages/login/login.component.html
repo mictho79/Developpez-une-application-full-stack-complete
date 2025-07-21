@@ -1,0 +1,15 @@
+<app-back-button route="/"></app-back-button>
+
+<div class="register-container">
+  <h2>Connexion</h2>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="form">
+    <label for="username">Email ou nom d'utilisateur</label>
+    <input id="username" type="text" formControlName="username" />
+
+    <label for="password">Mot de passe</label>
+    <input id="password" type="password" formControlName="password" />
+
+    <button type="submit">Se connecter</button>
+  </form>
+</div>

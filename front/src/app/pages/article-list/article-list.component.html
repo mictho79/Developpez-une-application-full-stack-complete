@@ -1,0 +1,31 @@
+<div class="article-section">
+<!-- En-tête de la liste des articles -->
+<div class="articles-header">
+  <!-- Bouton créer un article -->
+  <button class="create-button" routerLink="/articles/new">Créer un article</button>
+
+  <!-- Tri par ordre style "Trier par ↓" -->
+    <div class="sort-wrapper" (click)="toggleSortOrder()" [ngClass]="{'sort-asc': sortOrder === 'asc'}">
+      <span><strong>Trier par</strong></span>
+      <span class="arrow">↓</span>
+    </div>
+
+    <!-- Select caché pour garder la logique -->
+    <select class="hidden-select" [(ngModel)]="sortOrder" (change)="sortArticles()">
+      <option value="desc">Plus récent → Plus ancien</option>
+      <option value="asc">Plus ancien → Plus récent</option>
+    </select>
+  </div>
+
+<!-- Message si aucun article -->
+<div *ngIf="articles.length === 0">
+  <p>Aucun article trouvé pour vos abonnements.</p>
+</div>
+
+<!-- Liste des articles -->
+<div *ngIf="articles.length > 0" class="article-list-container">
+  <div *ngFor="let article of articles" (click)="goToArticle(article.id)">
+    <app-article [article]="article"></app-article>
+  </div>
+</div>
+</div>

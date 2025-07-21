@@ -1,0 +1,58 @@
+<!-- Logo principal en haut sauf sur home OU login/register en mobile -->
+<header *ngIf="!isHomePage() && !(isMobile() && isAuthPage())" class="logo-bar">
+  <img src="/assets/logo_p6.png" alt="logo" class="logo-navbar" />
+
+  <div class="nav-links" *ngIf="isLoggedIn() && !isMobile()" >
+        <button class="logout-button" (click)="logout()">Se déconnecter</button>
+    <a routerLink="/articles" routerLinkActive="active-link">Articles</a>
+    <a routerLink="/themes" routerLinkActive="active-link">Thèmes</a>
+      <a routerLink="/profile" class="profile-link" title="Profil">
+    <img src="/assets/profil.jpg" alt="profile" class="logo-profile" />
+  </a>
+
+  </div>
+
+  
+
+
+  <!-- ismobile et auth -->
+
+  <div 
+  *ngIf="showMenu && isMobile()" 
+  class="overlay" 
+  (click)="toggleMenu()">
+</div>
+
+  <div *ngIf="isMobile() && !(isAuthPage())" class="navbar-mobile">
+    <div class="navbar-header">
+      <button class="burger-button" (click)="toggleMenu()">☰</button>
+    </div>
+
+
+    <nav *ngIf="showMenu && isMobile()" class="burger-menu">
+      <div class="burger-links">
+        <button class="logout-button" (click)="logout()">Se déconnecter</button>
+        <a routerLink="/articles" routerLinkActive="active-link">Articles</a>
+        <a routerLink="/themes" routerLinkActive="active-link">Thèmes</a>
+      </div>
+  
+    <div class="burger-footer">
+    <a routerLink="/profile" (click)="toggleMenu()" title="Profil">
+      <img src="/assets/profil.jpg" alt="Profil" class="profile-icon" />
+    </a>
+  </div>
+</nav>
+  </div>
+</header>
+
+<!-- Logo mobile pour login/register -->
+<div *ngIf="isMobile() && isAuthPage()" class="logo-mobile">
+  <img src="/assets/logo_p6.png" alt="logom" class="logom" />
+</div>
+
+<!-- Navbar (connecté uniquement) -->
+<nav *ngIf="auth.isLoggedIn() && !isHomePage()">
+  
+
+  
+</nav>

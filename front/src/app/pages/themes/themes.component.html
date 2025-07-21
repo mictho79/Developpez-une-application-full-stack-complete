@@ -1,0 +1,23 @@
+<div class="article-section">
+  <div class="articles-header">
+    <h2>Thèmes</h2>
+  </div>
+
+  <div *ngIf="themes.length === 0">
+    <p>Aucun thème disponible.</p>
+  </div>
+
+  <div class="article-list-container">
+    <div *ngFor="let theme of themes">
+      <div class="theme-card">
+        <h3>{{ theme.title }}</h3>
+        <p>{{ theme.description }}</p>
+        <app-subscription-button
+          [themeId]="theme.id"
+          [isSubscribed]="subscribedThemes.includes(theme.id)"
+          (subscribed)="handleSubscribed(theme.id)">
+        </app-subscription-button>
+      </div>
+    </div>
+  </div>
+</div>

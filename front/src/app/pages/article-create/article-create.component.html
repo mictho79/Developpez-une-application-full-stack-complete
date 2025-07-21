@@ -1,0 +1,29 @@
+<div class="create-article-container">
+
+  <app-back-button route="/articles"></app-back-button>
+
+  <h2>Créer un nouvel article</h2>
+
+  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+
+    <!-- Sélecteur de thème -->
+    <label for="themeId">Sélectionner un thème</label>
+    <select formControlName="themeId" required>
+      <option value="" disabled selected></option>
+      <option *ngFor="let theme of themes" [ngValue]="theme.id">
+        {{ theme.title }}
+      </option>
+    </select>
+
+    <!-- Champ titre -->
+    <label for="title">Titre de l'article</label>
+    <input type="text" formControlName="title" required>
+
+    <!-- Champ contenu -->
+    <label for="content">Contenu de l'article</label>
+    <textarea formControlName="content" rows="6" required></textarea>
+
+    <!-- Bouton de validation -->
+    <button type="submit" [disabled]="articleForm.invalid">Créer</button>
+  </form>
+</div>

@@ -1,0 +1,51 @@
+<div class="article-detail-container">
+
+  <app-back-button route="/articles"></app-back-button>
+
+  <!-- Affichage de l’article -->
+  <div *ngIf="article" class="article-content-block">
+    <h2>{{ article.title }}</h2>
+
+    <div class="article-meta">
+      <span><strong>Date</strong> : {{ article.createdAt | date:'longDate' }}</span>
+      <span><strong>Auteur</strong> : {{ article.authorUsername }}</span>
+      <span><strong>Thème</strong> : {{ article.themeTitle }}</span>
+    </div>
+
+    <p class="article-text">{{ article.content }}</p>
+  </div>
+
+  <hr />
+
+  <!-- Section des commentaires -->
+  <h3>Commentaires</h3>
+
+  <div *ngIf="comments.length === 0" class="no-comments">
+    Aucun commentaire pour le moment.
+  </div>
+
+  <div *ngFor="let comment of comments" class="comment-line">
+   <div class="comment-author-name">
+  {{ comment.authorUsername }}
+</div>
+
+    <div class="comment-bubble">
+      <div class="comment-author-name">{{ comment.authorUsername }}</div>
+      <div class="comment-content">{{ comment.content }}</div>
+    </div>
+  </div>
+
+  <!-- Nouveau commentaire -->
+  <form class="comment-form" (ngSubmit)="postComment()">
+    <textarea
+      [(ngModel)]="newComment"
+      name="newComment"
+      rows="3"
+      placeholder="Écrivez ici votre commentaire"
+      required
+    ></textarea>
+    <button type="submit" [disabled]="!newComment">
+      <i class="send-icon">✅</i>
+    </button>
+  </form>
+</div>
