@@ -9,6 +9,8 @@ import com.openclassrooms.mddapi.model.User;
 import com.openclassrooms.mddapi.repository.ThemeRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.service.ArticleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/articles")
 @CrossOrigin
+@Tag(name = "Articles", description = "Opérations liées aux articles")
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -39,16 +42,17 @@ public class ArticleController {
         this.jwtUtil = jwtUtil;
     }
 
+    @Operation(summary = "Récupérer tous les articles")
     @GetMapping
     public ResponseEntity<List<ArticleDto>> getAllArticles() {
         List<ArticleDto> articles = articleService.getAllArticles()
                 .stream()
                 .map(ArticleDto::fromEntity)
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(articles);
     }
 
+    @Operation(summary = "Créer un nouvel article")
     @PostMapping
     public ResponseEntity<ArticleDto> createArticle(
             @RequestBody ArticleRequestDto requestDto,
@@ -67,6 +71,7 @@ public class ArticleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ArticleDto.fromEntity(article));
     }
 
+    @Operation(summary = "Récupérer les articles liés aux abonnements de l'utilisateur")
     @GetMapping("/subscriptions")
     public ResponseEntity<List<ArticleDto>> getSubscribedArticles(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
@@ -84,6 +89,7 @@ public class ArticleController {
         return ResponseEntity.ok(dtos);
     }
 
+    @Operation(summary = "Récupérer un article par son ID")
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDto> getArticleById(@PathVariable Long id) {
         Article article = articleService.getArticleById(id)
