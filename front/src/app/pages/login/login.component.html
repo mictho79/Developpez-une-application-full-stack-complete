@@ -12,4 +12,7 @@
 
     <button type="submit">Se connecter</button>
   </form>
+   <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
 </div>

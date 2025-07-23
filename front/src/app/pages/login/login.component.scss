@@ -42,6 +42,10 @@ button {
   margin: 0 auto;
   display: block;
 }
+.error-message {
+  color: red;
+  margin-top: 1rem;
+}
 
 button:hover {
   background-color: #6a38d9;

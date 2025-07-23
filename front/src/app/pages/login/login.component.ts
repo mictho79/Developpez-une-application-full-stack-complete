@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +39,7 @@ export class LoginComponent {
         error: (err) => {
           // Gestion des erreurs de connexion
           console.error('Erreur de connexion', err);
+          this.errorMessage = 'Email ou mot de passe invalide.';
         }
       });
   }
