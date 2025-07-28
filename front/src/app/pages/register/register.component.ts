@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +14,7 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
+    private authService: AuthService,
     private router: Router
   ) {
     this.registerForm = this.fb.group({
@@ -27,7 +27,7 @@ export class RegisterComponent {
   onSubmit(): void {
     if (this.registerForm.invalid) return;
 
-    this.http.post('http://localhost:8080/api/auth/register', this.registerForm.value)
+    this.authService.register(this.registerForm.value)
       .subscribe({
         next: (res: any) => {
           localStorage.setItem('token', res.token);
@@ -35,7 +35,7 @@ export class RegisterComponent {
         },
         error: (err) => {
           console.error('Erreur lors de l’inscription', err);
-          this.errorMessage = err.error.message || "Une erreur est survenue lors de l'inscription.";
+          this.errorMessage = "Une erreur est survenue lors de l'inscription.";
         }
       });
   }

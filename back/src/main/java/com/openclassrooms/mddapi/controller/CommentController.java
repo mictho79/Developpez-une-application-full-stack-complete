@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Contrôleur REST pour la gestion des commentaires liés aux articles.
+ */
 @RestController
 @RequestMapping("/api/articles/{articleId}/comments")
 @CrossOrigin
@@ -26,6 +29,12 @@ public class CommentController {
         this.jwtUtil = jwtUtil;
     }
 
+    /**
+     * Récupère tous les commentaires associés à un article.
+     *
+     * @param articleId Identifiant de l'article
+     * @return Liste des commentaires au format DTO
+     */
     @Operation(summary = "Récupérer les commentaires d’un article")
     @GetMapping
     public ResponseEntity<List<CommentDto>> getComments(@PathVariable Long articleId) {
@@ -34,6 +43,14 @@ public class CommentController {
         return ResponseEntity.ok(dtos);
     }
 
+    /**
+     * Ajoute un commentaire à un article en lien avec l'utilisateur connecté.
+     *
+     * @param articleId  Identifiant de l'article
+     * @param commentDto Objet contenant le contenu du commentaire
+     * @param authHeader En-tête Authorization contenant le token JWT
+     * @return Commentaire créé au format DTO
+     */
     @Operation(summary = "Ajouter un commentaire à un article")
     @PostMapping
     public ResponseEntity<CommentDto> addComment(

@@ -19,6 +19,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Contrôleur REST pour la gestion des articles.
+ * Permet de créer, consulter et filtrer les articles en fonction des abonnements.
+ */
 @RestController
 @RequestMapping("/api/articles")
 @CrossOrigin
@@ -42,6 +46,11 @@ public class ArticleController {
         this.jwtUtil = jwtUtil;
     }
 
+    /**
+     * Récupère tous les articles disponibles dans la base de données.
+     *
+     * @return Liste d'articles au format DTO
+     */
     @Operation(summary = "Récupérer tous les articles")
     @GetMapping
     public ResponseEntity<List<ArticleDto>> getAllArticles() {
@@ -52,6 +61,14 @@ public class ArticleController {
         return ResponseEntity.ok(articles);
     }
 
+    /**
+     * Crée un nouvel article associé à l'utilisateur connecté et à un thème.
+     *
+     * @param requestDto  Données nécessaires à la création de l'article
+     * @param authHeader  En-tête HTTP contenant le token JWT (Bearer)
+     * @return Article créé, encapsulé dans un DTO
+     * @throws ResponseStatusException si l'utilisateur ou le thème est introuvable
+     */
     @Operation(summary = "Créer un nouvel article")
     @PostMapping
     public ResponseEntity<ArticleDto> createArticle(
@@ -71,6 +88,13 @@ public class ArticleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ArticleDto.fromEntity(article));
     }
 
+    /**
+     * Récupère tous les articles liés aux thèmes suivis par l'utilisateur connecté.
+     *
+     * @param authHeader En-tête HTTP contenant le token JWT (Bearer)
+     * @return Liste d'articles au format DTO
+     * @throws RuntimeException si l'utilisateur est introuvable
+     */
     @Operation(summary = "Récupérer les articles liés aux abonnements de l'utilisateur")
     @GetMapping("/subscriptions")
     public ResponseEntity<List<ArticleDto>> getSubscribedArticles(@RequestHeader("Authorization") String authHeader) {
@@ -89,6 +113,13 @@ public class ArticleController {
         return ResponseEntity.ok(dtos);
     }
 
+    /**
+     * Récupère un article par son identifiant.
+     *
+     * @param id Identifiant de l'article à récupérer
+     * @return Article trouvé au format DTO
+     * @throws ResponseStatusException si l'article est introuvable
+     */
     @Operation(summary = "Récupérer un article par son ID")
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDto> getArticleById(@PathVariable Long id) {

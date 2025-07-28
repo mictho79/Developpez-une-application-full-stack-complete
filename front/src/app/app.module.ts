@@ -24,6 +24,7 @@ import { ArticleDetailComponent } from './pages/article-detail/article-detail.co
 import { FormsModule } from '@angular/forms';
 import { BackButtonComponent } from './components/back-button/back-button.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-    }
+    },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: ErrorInterceptor,
+    multi: true
+  }
   ],
   bootstrap: [AppComponent],
 })

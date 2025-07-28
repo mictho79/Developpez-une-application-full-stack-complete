@@ -11,6 +11,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service d'authentification permettant la gestion de la connexion
+ * et de l'inscription des utilisateurs.
+ */
 @Service
 public class AuthService {
 
@@ -23,26 +27,33 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Authentifie un utilisateur à partir de ses identifiants (email ou username + mot de passe).
+     *
+     * @param loginDTO les identifiants de connexion
+     * @return un objet contenant le token JWT généré
+     * @throws BadCredentialsException si les identifiants sont invalides
+     */
     public LoginResponseDTO login(LoginDTO loginDTO) {
-
-        // Recherche par username ou email
         User user = userRepository.findByUsername(loginDTO.getUsername())
                 .or(() -> userRepository.findByEmail(loginDTO.getUsername()))
-                .orElseThrow(() -> {
-                    return new BadCredentialsException("Identifiants invalides");
-                });
-
+                .orElseThrow(() -> new BadCredentialsException("Identifiants invalides"));
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Identifiants invalides");
         }
 
-
         String token = jwtUtil.generateToken(user.getEmail());
         return new LoginResponseDTO(token);
     }
 
-
+    /**
+     * Inscrit un nouvel utilisateur après validation des champs.
+     *
+     * @param registerDTO les informations d'inscription (username, email, mot de passe)
+     * @return un objet contenant le token JWT généré
+     * @throws RuntimeException si l'email ou le username existe déjà, ou si le mot de passe est invalide
+     */
     public LoginResponseDTO register(RegisterDTO registerDTO) {
         if (userRepository.existsByEmail(registerDTO.getEmail())) {
             throw new RuntimeException("Email déjà utilisé");
@@ -68,5 +79,4 @@ public class AuthService {
         String token = jwtUtil.generateToken(user.getEmail());
         return new LoginResponseDTO(token);
     }
-
 }

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Article } from 'src/app/models/Article.model';
 import { Comment } from 'src/app/models/Comment.model';
+import { ArticleService } from 'src/app/services/article.service';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-article-detail',
   templateUrl: './article-detail.component.html',
-  styleUrls: ['./article-detail.component.scss'] 
+  styleUrls: ['./article-detail.component.scss']
 })
 export class ArticleDetailComponent implements OnInit {
   article!: Article;
@@ -17,42 +18,34 @@ export class ArticleDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient
+    private articleService: ArticleService,
+    private commentService: CommentService
   ) {}
 
   ngOnInit(): void {
     this.articleId = this.route.snapshot.paramMap.get('id')!;
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    // Chargement des infos de l’article
-    this.http.get<Article>(`http://localhost:8080/api/articles/${this.articleId}`, { headers })
+    this.articleService.getArticleById(this.articleId)
       .subscribe({
         next: (res) => this.article = res,
         error: (err) => console.error('Erreur chargement article', err)
       });
 
-    // Chargement des commentaires liés à l’article
-    this.http.get<Comment[]>(`http://localhost:8080/api/articles/${this.articleId}/comments`, { headers })
+    this.commentService.getCommentsForArticle(this.articleId)
       .subscribe({
         next: (res) => this.comments = res,
         error: (err) => console.error('Erreur chargement commentaires', err)
       });
   }
 
-  // Permet à l’utilisateur d’ajouter un commentaire
   postComment(): void {
     if (!this.newComment.trim()) return;
 
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const body = { content: this.newComment };
-
-    this.http.post<Comment>(`http://localhost:8080/api/articles/${this.articleId}/comments`, body, { headers })
+    this.commentService.postComment(this.articleId, this.newComment)
       .subscribe({
         next: (newCom) => {
-          this.comments.unshift(newCom); // Ajoute le commentaire en haut de la liste
-          this.newComment = ''; // Réinitialise le champ
+          this.comments.unshift(newCom);
+          this.newComment = '';
         },
         error: (err) => console.error('Erreur ajout commentaire', err)
       });
